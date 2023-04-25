@@ -13,9 +13,14 @@ increases speed, transparency, and security. It provides various interfaces for 
 2. Django 4.1.7  
 3. MySQL(recommended), PostgreSQL, Oracle Database and SQLite  
 
+<hr>
+
+```
 ## Set up the website
 * Clone the repo  
-`git@github.com:MousumiDutta2000/ATC-SupportSquard.git`
+`https://github.com/MousumiDutta2000/ATC-SupportSquard.git`
+
+```
 
 * Open Project directory  
 * Now install the requirements  
