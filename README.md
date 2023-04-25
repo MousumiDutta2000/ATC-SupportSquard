@@ -28,16 +28,16 @@ pip install -r requirements.txt
 * Set Environment variables
 * Make Migrations
 ```
-`python manage.py makemigrations`
+python manage.py makemigrations
 ```
 * Migrate ATCdash app  
-`python manage.py migrate`
+python manage.py migrate
 ```
 ```
 * Create Super user  
-`python manage.py createsuperuser`
+python manage.py createsuperuser
 ```
 ```
 * Now in terminal run the server and go to http://localhost:8000/ or http://127.0.0.1:8000/ 
-`python manange.py runserver`
+python manange.py runserver
 ```
