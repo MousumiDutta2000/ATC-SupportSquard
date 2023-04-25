@@ -14,15 +14,12 @@ increases speed, transparency, and security. It provides various interfaces for 
 
 <hr>
 
-```
 ## Set up the website
-```
-* Clone the repo  
+* Clone the repo 
+``` 
 `https://github.com/MousumiDutta2000/ATC-SupportSquard.git`
 ``` 
-```
 * Now install the requirements  
-```
 ```
 pip install -r requirements.txt
 ```
@@ -35,12 +32,11 @@ python manage.py makemigrations
 ```
 python manage.py migrate
 ```
-```
 * Create Super user  
 ```
 python manage.py createsuperuser
 ```
-```
 * Now in terminal run the server and go to http://localhost:8000/ or http://127.0.0.1:8000/ 
+```
 python manange.py runserver
 ```
