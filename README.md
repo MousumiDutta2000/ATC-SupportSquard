@@ -23,7 +23,7 @@ increases speed, transparency, and security. It provides various interfaces for 
 ```
 * Now install the requirements  
 ```
-`pip install -r requirements.txt`
+pip install -r requirements.txt
 ```
 * Set Environment variables
 * Make Migrations
