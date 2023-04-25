@@ -16,18 +16,23 @@ increases speed, transparency, and security. It provides various interfaces for 
 
 ```
 ## Set up the website
+```
 * Clone the repo  
 `https://github.com/MousumiDutta2000/ATC-SupportSquard.git`
 
+``` 
 ```
-```  
 * Now install the requirements  
+```
 `pip install -r requirements.txt`
 ```
 ```
+```
 * Set Environment variables
-* Make Migrations  
+* Make Migrations
+```
 `python manage.py makemigrations`
+```
 ```
 ```
 * Migrate ATCdash app  
