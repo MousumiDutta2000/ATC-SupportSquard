@@ -21,20 +21,25 @@ increases speed, transparency, and security. It provides various interfaces for 
 `https://github.com/MousumiDutta2000/ATC-SupportSquard.git`
 
 ```
-
+```
 * Open Project directory  
 * Now install the requirements  
 `pip install -r requirements.txt`
-
+```
+```
 * Set Environment variables
 * Make Migrations  
 `python manage.py makemigrations`
-
+```
+```
 * Migrate ATCdash app  
 `python manage.py migrate`
-
+```
+```
 * Create Super user  
 `python manage.py createsuperuser`
-
+```
+```
 * Now in terminal run the server and go to http://localhost:8000/ or http://127.0.0.1:8000/ 
 `python manange.py runserver`
+```
