@@ -9,21 +9,30 @@ increases speed, transparency, and security. It provides various interfaces for 
 
 ### Requirements :
 1. Python v3.10.5
-2. Django 4.1.7  
+2. Django v4.1.7  
 3. MySQL(recommended), PostgreSQL, Oracle Database and SQLite  
+4. POSTMAN (recommended), Swagger - API Call
 
 <hr>
 
 ## Set up the website
 * Clone the repo 
-``` 
-`https://github.com/MousumiDutta2000/ATC-SupportSquard.git`
-``` 
+```bash
+https://github.com/MousumiDutta2000/ATC-SupportSquard.git
+cd ATC-SupportSquard
+```
 * Now install the requirements  
 ```
 pip install -r requirements.txt
 ```
-* Set Environment variables
+* Set Virtual Environment 
+```bash
+python -m venv venv
+```
+now to activate venv
+```bash
+cd venv/Scripts/activate.ps1
+```
 * Make Migrations
 ```
 python manage.py makemigrations
