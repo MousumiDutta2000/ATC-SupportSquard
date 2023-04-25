@@ -11,7 +11,7 @@ increases speed, transparency, and security. It provides various interfaces for 
 1. Python v3.10.5
 2. Django v4.1.7  
 3. MySQL(recommended), PostgreSQL, Oracle Database and SQLite  
-4. POSTMAN (recommended), Swagger - API Call
+4. POSTMAN (recommended), Swagger
 
 <hr>
 
