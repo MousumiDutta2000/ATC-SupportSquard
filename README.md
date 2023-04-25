@@ -34,7 +34,6 @@ now to activate venv
 cd venv/Scripts/activate.ps1
 ```
 * Make Migrations
-```
 ```bash
 cd dashboard
 python manage.py makemigrations
