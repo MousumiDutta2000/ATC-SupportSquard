@@ -2,7 +2,6 @@
 
 <b> This project is a part of Adamas Tech Consultancy and it is solely developed for support team work purposes. </b>
 
-```
 <hr>
 
 SupportSquard is a online system that automates the support team and client communation process and
@@ -21,8 +20,7 @@ increases speed, transparency, and security. It provides various interfaces for 
 `https://github.com/MousumiDutta2000/ATC-SupportSquard.git`
 
 ```
-```
-* Open Project directory  
+```  
 * Now install the requirements  
 `pip install -r requirements.txt`
 ```
