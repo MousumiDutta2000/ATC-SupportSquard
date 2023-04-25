@@ -15,7 +15,7 @@ increases speed, transparency, and security. It provides various interfaces for 
 
 ## Set up the website
 * Clone the repo  
-`.git`
+`git@github.com:MousumiDutta2000/ATC-SupportSquard.git`
 
 * Open Project directory  
 * Now install the requirements  
