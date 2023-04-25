@@ -23,6 +23,7 @@ increases speed, transparency, and security. It provides various interfaces for 
 ```
 * Now install the requirements  
 ```
+```
 pip install -r requirements.txt
 ```
 * Set Environment variables
@@ -30,11 +31,13 @@ pip install -r requirements.txt
 ```
 python manage.py makemigrations
 ```
-* Migrate ATCdash app  
+* Migrate ATCdash app
+```
 python manage.py migrate
 ```
 ```
 * Create Super user  
+```
 python manage.py createsuperuser
 ```
 ```
