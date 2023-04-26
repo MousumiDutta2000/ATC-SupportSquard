@@ -4,6 +4,7 @@ from .models import UserActivity
 from django.utils import timezone
 
 
+#gets triggered when a user logs in. 
 @receiver(user_logged_in)
 def user_logged_in_receiver(sender, request, user, **kwargs):
     user_activity, created = UserActivity.objects.get_or_create(user=user)
@@ -11,6 +12,7 @@ def user_logged_in_receiver(sender, request, user, **kwargs):
     user_activity.save()
 
 
+#gets triggered when a user logs out.
 @receiver(user_logged_out)
 def user_logged_out_receiver(sender, request, user, **kwargs):
     try:
