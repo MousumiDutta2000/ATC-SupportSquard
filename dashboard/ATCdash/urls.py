@@ -11,20 +11,3 @@ urlpatterns = [
     # URL pattern for the user registration API
     path('register/', views.register_api),
 ]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# from knox import views as knox_views
-# path('logout/', knox_views.LogoutView.as_view()),
-# path('logoutall/', knox_views.LogoutAllView.as_view())
