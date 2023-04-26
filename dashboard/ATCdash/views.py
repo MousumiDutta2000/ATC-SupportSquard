@@ -1,16 +1,14 @@
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont  # importing necessary modules
 import random
 import io
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout  # importing necessary modules
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from django.contrib import messages
-
-from django.contrib.auth.models import User
-from rest_framework import viewsets
-from .serializers import UserSerializer
-
+from django.contrib import messages  # importing necessary modules
+from django.contrib.auth.models import User  # importing User model from django's auth module
+from rest_framework import viewsets  # importing viewsets from rest_framework module
+from .serializers import UserSerializer, RegisterSerializer  # importing necessary serializers
 # The 'api_view' decorator is used to define the view functions for API endpoints
 from rest_framework.decorators import api_view
 # The 'Response' class is used to send responses from the server.
@@ -24,12 +22,14 @@ from knox.auth import AuthToken
 from .serializers import RegisterSerializer
 
 
+# Define a view for user login
 @login_required(login_url='login')
 def dashboard(request):
     messages.success(request, 'login Successfully')
     return render(request, 'main.html')
 
 
+# Define a view for the home page, where users can login
 def home(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -48,6 +48,7 @@ def home(request):
         return render(request, 'index.html')
 
 
+# Define a view for user logout
 def log_out(request):
 
     if request.method == 'POST':
@@ -58,13 +59,7 @@ def log_out(request):
         return redirect('dashboard')
 
 
-def my_view(request):
-    context = {
-        'user': request.user
-    }
-    return render(request, 'my_template.html', context)
-
-
+# Generate a profile image
 def generate_profile_image(request):
 
     # Get user's first and last name
@@ -111,6 +106,7 @@ def generate_profile_image(request):
     return HttpResponse(byte_stream.getvalue(), content_type='image/png')
 
 
+# DRF view set
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -145,7 +141,7 @@ def get_user_data(request):
     # Getting the authenticated user from the request
     user = request.user
     # Creating an authentication token for the user
-    _, token = AuthToken.objects.create(user)
+    # _, token = AuthToken.objects.create(user)
 
     # Checking if the user is authenticated and returning the user information and authentication token as a response
     if user.is_authenticated:
@@ -156,9 +152,8 @@ def get_user_data(request):
                 'email': user.email,
                 'first_name': user.first_name,
                 'last_name': user.last_name,
-                'is_staff': user.is_staff,
             },
-            'token': token
+            # 'token': token
         })
     # If the user is not authenticated, returning an error response with status code 400
     return Response({'error': 'not authenticated'}, status=400)
