@@ -30,44 +30,38 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'django.contrib.sites',
-    'ATCdash',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',  # for Google OAuth 2.0
-    'allauth.socialaccount.providers.linkedin_oauth2',  # for Linked in Oauth
-    #    'allauth.socialaccount.providers.azure',  # for Azure Oauth
-    'allauth.socialaccount.providers.microsoft',  # for Azure Oauth
-    'rest_framework',
-    'knox',
+    'django.contrib.admin',  # Django's admin site
+    'django.contrib.auth',  # authentication framework
+    'django.contrib.contenttypes',  # content types framework
+    'django.contrib.sessions',  # session framework
+    'django.contrib.messages',  # messaging framework
+    'django.contrib.staticfiles',  # static files framework
+    'django.contrib.sites',  # sites framework
+    'ATCdash',  # custom app named ATCdash
+    'allauth',  # authentication app
+    'allauth.account',  # account management app
+    'allauth.socialaccount',  # social authentication app
+    'allauth.socialaccount.providers.google',  # Google OAuth 2.0 provider for allauth
+    'allauth.socialaccount.providers.linkedin_oauth2',  # LinkedIn OAuth provider for allauth
+    'allauth.socialaccount.providers.microsoft',  # Microsoft OAuth provider for allauth
+    'rest_framework',  # Django REST framework
+    'knox',  # token authentication for Django REST framework
 ]
 
 REST_FRAMEWORK = {
-    # Use Django's standard `django.contrib.auth` permissions,
-    # or allow read-only access for unauthenticated users.
-    # 'DEFAULT_PERMISSION_CLASSES': [
-    #     'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
-    # ]
-    'DEFAULT_AUTHENTICATION_CLASSES': ('knox.auth.TokenAuthentication',),
-    'DEFAULT_RENDERER_CLASSES': [
-        'rest_framework.renderers.JSONRenderer',
-        'rest_framework.renderers.AdminRenderer',
-        'rest_framework.renderers.BrowsableAPIRenderer'
+    'DEFAULT_AUTHENTICATION_CLASSES': ('knox.auth.TokenAuthentication',),  # Use token authentication provided by knox package
+    'DEFAULT_RENDERER_CLASSES': [  # Use these renderers to determine the response format
+        'rest_framework.renderers.JSONRenderer',  # Serialize output to JSON format
+        'rest_framework.renderers.AdminRenderer',  # Create an admin interface for the API
+        'rest_framework.renderers.BrowsableAPIRenderer'  # Human-readable HTML view of the API endpoint
     ],
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 100
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',  # Use page number pagination
+    'PAGE_SIZE': 100  # Set the page size to 100
 }
 
 AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend'
+    'django.contrib.auth.backends.ModelBackend',  # Default Django authentication backend
+    'allauth.account.auth_backends.AuthenticationBackend'  # Authentication backend for allauth
 ]
 
 SITE_ID = 2
@@ -83,21 +77,21 @@ ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 SOCIALACCOUNT_PROVIDERS = {
-    'google': {
+    'google': {  # Google authentication provider
         'SCOPE': [
-            'profile',
-            'email',
+            'profile',  # Request access to the user's profile information
+            'email',  # Request access to the user's email address
         ],
         'AUTH_PARAMS': {
-            'access_type': 'online',
+            'access_type': 'online',  # Request online access to the user's account
         }
     },
-    'linkedin': {
+    'linkedin': {  # LinkedIn authentication provider
         'SCOPE': [
-            'r_basicprofile',
-            'r_emailaddress'
+            'r_basicprofile',  # Request access to the user's basic profile information
+            'r_emailaddress'  # Request access to the user's email address
         ],
-        'PROFILE_FIELDS': [
+        'PROFILE_FIELDS': [  # The fields to include in the user's profile data
             'id',
             'first-name',
             'last-name',
@@ -106,40 +100,25 @@ SOCIALACCOUNT_PROVIDERS = {
             'public-profile-url',
         ]
     },
-
-    # 'azure': {
-    #     'SCOPE': [
-    #         'openid',  # Authenticate using OpenID Connect
-    #         'email',  # Retrieve email address
-    #         'profile',  # Retrieve basic profile information
-    #     ],
-    #     'TENANT_ID': 'f8cdef31-a31e-4b4a-93e4-5f571e91255a',
-    #     'RESOURCE': 'https://graph.microsoft.com',
-    #     'AUTH_PARAMS': {
-    #         'prompt': 'select_account',
-    #     },
-    # },
-
-    'microsoft': {
-        'SCOPE': ['User.Read'],
+    'microsoft': {  # Microsoft authentication provider
+        'SCOPE': ['User.Read'],  # Request access to the user's profile information
         'AUTH_PARAMS': {
-            'prompt': 'select_account'
+            'prompt': 'select_account'  # Request that the user select their account during login
         },
-        'METHOD': 'oauth2',
-        'VERIFIED_EMAIL': True,
-        'REDIRECT_URI': 'http://127.0.0.1:8000/accounts/microsoft/login/callback/'
+        'METHOD': 'oauth2',  # Use OAuth 2.0 authentication
+        'VERIFIED_EMAIL': True,  # Require email verification for Microsoft accounts
+        'REDIRECT_URI': 'http://127.0.0.1:8000/accounts/microsoft/login/callback/'  # The URL to redirect to after authentication
     }
-
 }
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.security.SecurityMiddleware',  # Adds various security-related HTTP headers to the response
+    'django.contrib.sessions.middleware.SessionMiddleware',  # Provides session support for Django
+    'django.middleware.common.CommonMiddleware',  # Provides several common middleware utilities
+    'django.middleware.csrf.CsrfViewMiddleware',  # Provides CSRF protection for views that use POST requests
+    'django.contrib.auth.middleware.AuthenticationMiddleware',  # Provides user authentication support
+    'django.contrib.messages.middleware.MessageMiddleware',  # Provides support for Django's messaging framework
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',  # Sets the X-Frame-Options header to prevent clickjacking attacks
 ]
 
 ROOT_URLCONF = 'dashboard.urls'
@@ -174,9 +153,6 @@ DATABASES = {
         'HOST': '127.0.0.1',
         'PORT': '3306',
     }
-    # 'ENGINE': 'django.db.backends.sqlite3',
-    #
-    # 'NAME': BASE_DIR / 'db.sqlite3',
 }
 
 # Password validation
@@ -223,8 +199,3 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-# EMAIL_USE_TLS = True
-# EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_PORT = 587
-# EMAIL_HOST_USER = 'mousumid721@gmail.com'
-# EMAIL_HOST_PASSWORD = ''
