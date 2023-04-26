@@ -2,34 +2,11 @@ from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
 from ATCdash import views
-
-from django.contrib.auth.models import User
-from rest_framework import routers, serializers, viewsets
-
-from django.urls import path, include
 from rest_framework import routers
 from ATCdash.views import UserViewSet
 
-
-router = routers.DefaultRouter()
-router.register(r'users', UserViewSet)
-# Serializers define the API representation.
-# class UserSerializer(serializers.HyperlinkedModelSerializer):
-#     class Meta:
-#         model = User
-#         fields = ['url', 'username', 'password', 'email', 'first_name', 'last_name', 'is_staff']
-
-
-# ViewSets define the view behavior.
-# class UserViewSet(viewsets.ModelViewSet):
-#     queryset = User.objects.all()
-#     serializer_class = UserSerializer
-
-
-# Routers provide a way of automatically determining the URL conf.
-# router = routers.DefaultRouter()
-# router.register(r'users', UserViewSet)
-
+router = routers.DefaultRouter() #Initializing a router for DRF.
+router.register(r'users', UserViewSet) #Registering UserViewSet class with the router, so it can be used as an API endpoint.
 
 urlpatterns = [
     path('admin/', admin.site.urls, name='djangoadmin'),
