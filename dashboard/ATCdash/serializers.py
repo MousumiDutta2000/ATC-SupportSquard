@@ -1,6 +1,7 @@
 # Importing necessary modules
 from django.contrib.auth.models import User
 from rest_framework import serializers, validators
+from django.contrib.auth.hashers import make_password
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -39,10 +40,13 @@ class RegisterSerializer(serializers.ModelSerializer):
         first_name = validated_data.get('first_name')
         last_name = validated_data.get('last_name')
 
+        # Hashing the password
+        hashed_password = make_password(password)
+
         # Creating a new user instance
         user = User.objects.create(
             username=username,
-            password=password,
+            password=hashed_password,
             email=email,
             first_name=first_name,
             last_name=last_name
