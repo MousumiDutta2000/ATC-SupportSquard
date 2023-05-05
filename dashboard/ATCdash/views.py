@@ -183,3 +183,37 @@ def register_api(request):
         },
         'token': token
     })
+
+
+@login_required(login_url='login')
+def create_zoom_meeting(request):
+    if request.method == 'POST':
+        # Set up the Zoom client
+        client = ZoomClient("SnqdYAiSSNCNvsn3flCcCA", "BhExBYMRZTqxqwnbr0F0NFtxpt7cLflQaZsT")  # Set up JWT token
+        zoom_api_key = "SnqdYAiSSNCNvsn3flCcCA"
+        zoom_api_secret = "BhExBYMRZTqxqwnbr0F0NFtxpt7cLflQaZsT"
+        exp_time = datetime.now() + timedelta(minutes=10)
+        token = jwt.encode({'iss': zoom_api_key, 'exp': int(exp_time.timestamp())}, zoom_api_secret, algorithm='HS256')
+        # Create the meeting
+        topic = request.POST.get('topic')
+        # start_time_str = request.POST.get('start_time')
+        # start_time = datetime.strptime(start_time_str, '%Y-%m-%dT%H:%M')
+        duration = request.POST.get('duration') 
+        password = request.POST.get('password') or None  # Default to no password
+        response = client.meeting.create(user_id="me", topic=topic, type=2,
+                                         duration=int(duration), password=password, token=token)
+        # Get the join URL and meeting ID from the response
+        response_data = response.json()
+        join_url = response_data['join_url']
+        meeting_id = response_data['id']
+        meeting_password = response_data['password'] or "None"  # Display "None" if no password was set
+
+        # Pass the join URL and meeting info to the template
+        context = {
+            'join_url': join_url,
+            'meeting_id': meeting_id,
+            'meeting_password': meeting_password,
+        }
+        return render(request, 'create_zoom_meeting.html', context)
+    else:
+        return render(request, 'create_zoom_meeting.html')
