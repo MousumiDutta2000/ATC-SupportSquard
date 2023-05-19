@@ -1,73 +1,46 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
+    {% load static %}
     <title>Create Zoom Meeting</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        background-color: #f5f5f5;
-      }
-      h1 {
-        text-align: center;
-        margin-top: 50px;
-      }
-      form {
-        background-color: #fff;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        padding: 20px;
-        margin: 50px auto;
-        max-width: 500px;
-        box-shadow: 0px 0px 5px #ccc;
-      }
-      label {
-        display: inline-block;
-        margin-bottom: 10px;
-      }
-      input[type="text"],
-      input[type="number"],
-      input[type="password"] {
-        display: block;
-        width: 100%;
-        padding: 8px;
-        margin-bottom: 20px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        box-sizing: border-box;
-      }
-      button[type="submit"] {
-        background-color: #4CAF50;
-        color: #fff;
-        padding: 8px 12px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        margin-top: 20px;
-      }
-      button[type="submit"]:hover {
-        background-color: #3e8e41;
-      }
-    </style>
-  </head>
-  <body>
-    <h1>Create Zoom Meeting</h1>
-    {% if join_url %}
-      <h2>Meeting created!</h2>
-      <p>Click the link below to join the meeting:</p>
-      <a href="{{ join_url }}">{{ join_url }}</a>
-      <p>Meeting ID: {{ meeting_id }}</p>
-      <p>Meeting Password: {{ meeting_password }}</p>
-    {% else %}
-      <form action="{% url 'zoom_meeting' %}" method="post">
-        {% csrf_token %}
-        <label for="topic">Topic:</label>
-        <input type="text" name="topic" id="topic">
-        <label for="duration">Duration (minutes):</label>
-        <input type="number" name="duration" id="duration" value="0">
-        <label for="password">Password:</label>
-        <input type="password" name="password" id="password">
-        <button type="submit">Create Meeting</button>
-      </form>
-    {% endif %}
-  </body>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/zoom.css' %}">
+</head>
+
+<body>
+    <div class="container">
+        <div class="brand-logo"></div>
+        <div class="brand-title">ZOOM</div>
+
+        {% if meeting_details %}
+        <p><strong>Topic:</strong> {{ meeting_details.topic }}</p>
+        <p><strong>ID:</strong> {{ meeting_details.id }}</p>
+        <p><strong>Join URL:</strong> <a href="{{ meeting_details.join_url }}">{{ meeting_details.join_url }}</a></p>
+        {% else %}
+        {% if error_message %}
+        <div class="alert alert-danger" role="alert">
+            {{ error_message }}
+        </div>
+        {% endif %}
+
+        <div class="inputs">
+            <form method="post">
+                {% csrf_token %}
+                <label for="topic">Topic</label>
+                <input type="text" id="topic" name="topic" placeholder="Topic name" required>
+
+                <label for="start_time">Start Time</label>
+                <input type="datetime-local" id="start_time" name="start_time" required>
+
+                <label for="duration">Duration (minutes)</label>
+                <input type="number" id="duration" name="duration" required>
+
+                <button type="submit">Create Meeting</button>
+            </form>
+        </div>
+        {% endif %}
+    </div>
+</body>
+
 </html>
