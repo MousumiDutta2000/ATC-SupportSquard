@@ -184,36 +184,76 @@ def register_api(request):
         'token': token
     })
 
+# Define a function to generate an access token for the Zoom API
+def get_access_token(account_id, client_id, client_secret):
+    # Create the URL for the OAuth token request with the account ID, client ID, and secret
+    url = f'https://api.zoom.us/oauth/token?grant_type=account_credentials&account_id={account_id}&client_id={client_id}&client_secret={client_secret}'
 
+    # Send the token request to the Zoom API and handle the response
+    response = requests.post(url)
+
+    # If the token request is successful, return the access token from the response JSON
+    if response.status_code == 200:
+        return response.json()['access_token']
+    # If the token request is unsuccessful, raise an exception with the error message from the response JSON
+    else:
+        raise Exception(f"Error getting access token from Zoom API: {response.json()['message']}")
+
+
+# Function to create a Zoom meeting
 @login_required(login_url='login')
 def create_zoom_meeting(request):
     if request.method == 'POST':
-        # Set up the Zoom client
-        client = ZoomClient("SnqdYAiSSNCNvsn3flCcCA", "BhExBYMRZTqxqwnbr0F0NFtxpt7cLflQaZsT")  # Set up JWT token
-        zoom_api_key = "SnqdYAiSSNCNvsn3flCcCA"
-        zoom_api_secret = "BhExBYMRZTqxqwnbr0F0NFtxpt7cLflQaZsT"
-        exp_time = datetime.now() + timedelta(minutes=10)
-        token = jwt.encode({'iss': zoom_api_key, 'exp': int(exp_time.timestamp())}, zoom_api_secret, algorithm='HS256')
-        # Create the meeting
-        topic = request.POST.get('topic')
-        # start_time_str = request.POST.get('start_time')
-        # start_time = datetime.strptime(start_time_str, '%Y-%m-%dT%H:%M')
-        duration = request.POST.get('duration') 
-        password = request.POST.get('password') or None  # Default to no password
-        response = client.meeting.create(user_id="me", topic=topic, type=2,
-                                         duration=int(duration), password=password, token=token)
-        # Get the join URL and meeting ID from the response
-        response_data = response.json()
-        join_url = response_data['join_url']
-        meeting_id = response_data['id']
-        meeting_password = response_data['password'] or "None"  # Display "None" if no password was set
+        account_id = '8CefIGCsQY-lMV1C-YaqoQ'
+        client_id = 'e2aPPgEETeiD3qA6HydRaA'
+        client_secret = 'EwewoNT2zkPgyGuvfAi4U00J15CXpEgB'
+        # Get account credentials and client ID and secret from environment variables or settings.py
 
-        # Pass the join URL and meeting info to the template
-        context = {
-            'join_url': join_url,
-            'meeting_id': meeting_id,
-            'meeting_password': meeting_password,
+        # Generate the access token using the get_access_token function
+        access_token = get_access_token(account_id, client_id, client_secret)
+
+        # Print the access token to the Django terminal
+        print(f"Access token: {access_token}")
+
+        # Set the headers for the Zoom API request with the access token
+        headers = {'Authorization': f'Bearer {access_token}', 'Content-Type': 'application/json'}
+
+        # URL for the Zoom API endpoint to create a new meeting
+        url = f'https://api.zoom.us/v2/users/me/meetings'
+
+        # Get the meeting details from the request form
+        topic = request.POST['topic']
+        start_time_str = request.POST['start_time']
+        start_time = datetime.strptime(start_time_str, '%Y-%m-%dT%H:%M').strftime('%Y-%m-%dT%H:%M:%SZ')
+        duration = request.POST['duration']
+        timezone = request.POST.get('timezone') # Use get() method to retrieve the value, which returns None if key is not present
+
+        # Create a JSON payload for the Zoom meeting creation request
+        data = {
+            'topic': topic,
+            'type': 2,
+            'start_time': start_time,
+            'duration': duration,
+            'timezone': timezone,
         }
-        return render(request, 'create_zoom_meeting.html', context)
-    else:
-        return render(request, 'create_zoom_meeting.html')
+
+        # Send the Zoom meeting creation request and handle the response
+        response = requests.post(url, headers=headers, data=json.dumps(data))
+
+        if response.status_code == 201:
+            # Get the meeting details from the response JSON
+            meeting = response.json()
+            meeting_details = {
+                'id': meeting.get('id'),
+                'join_url': meeting.get('join_url'),
+                'start_url': meeting.get('start_url'),
+                'topic': meeting.get('topic'),
+            }
+            meeting_details_json = json.dumps(meeting_details)
+
+            # Render the template with the meeting details and access token in the context
+            context = {'meeting_details': meeting_details, 'access_token': access_token}
+            return render(request, 'create_zoom_meeting.html', context)
+        else:
+            # Handle the error response from the Zoom API
+            error_message = response.json().get('message')
