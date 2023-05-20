@@ -80,12 +80,11 @@ python manage.py migrate
 ```
 python manage.py createsuperuser
 ```
-<hr>
+```
 <li> username: [your username] </li>
 <li> email: [your email id] </li>
 <li> password: [your password] </li>
-<hr>
-  
+```
 * Now in terminal run the server and go to http://localhost:8000/ or http://127.0.0.1:8000/ 
 ```
 python manange.py runserver
