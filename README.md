@@ -44,7 +44,7 @@ pip install -r requirements.txt
 ```bash
 python -m venv venv
 ```
-now to activate venv
+* now to activate venv
 ```bash
 cd venv/Scripts/activate.ps1
 ```
@@ -56,8 +56,9 @@ cd dashboard
 
 Fill database name , database password and user in settings.py like
 
+```
 DATABASES = {
-   'default': {
+   'default':{
        'ENGINE': 'django.db.backends.mysql',
        'NAME': 'your_databse_name',
        'USER': 'username',
@@ -66,7 +67,7 @@ DATABASES = {
        'PORT': '3306',
    }
  }
- 
+``` 
 Then migrate to load the operations of Data Migrations in database.
 ``` 
 python manage.py makemigrations
